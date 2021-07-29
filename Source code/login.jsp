@@ -29,34 +29,35 @@
 
 </head>
 <body>
-
 <%
+String msg="";
 
 try
 {
 String btn=request.getParameter("btn");
-	if(btn.equals("Update"))
+String un=request.getParameter("uname");
+String pw=request.getParameter("pass");
+	if(btn.equals("Login"))
 	{
-	String em=request.getParameter("email");
-	String pw=request.getParameter("pass");
-        //out.print("update admin set email='"+em+"',pass='"+pw+"' where username='admin'");
-	stmt.executeUpdate("update admin set email='"+em+"',pass='"+pw+"' where username='admin'");
-	%>
-	<script language="javascript">
-	alert("Updated Success");
-	window.location.href="admin.jsp";
-	</script>
-	<%
-	}
+		
+		String qry="select * from admin where username='"+un+"' && password='"+pw+"'";
+                ResultSet rs=stmt.executeQuery(qry);
+			if(rs.next())
+			{
+			session.setAttribute("username",un);
+			response.sendRedirect("admin.jsp");
+			}
+			else
+			{
+			msg="Invalid User!";
+			}
+	}	
+
 }
 catch(Exception e)
 {
-
 }
-
-
 %>
-
      <!-- PRE LOADER -->
      <section class="preloader">
           <div class="spinner">
@@ -85,8 +86,9 @@ catch(Exception e)
                <!-- MENU LINKS -->
                <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                       <li><a href="admin.jsp" class="smoothScroll">Home</a></li>
-                         <li><a href="logout.jsp" class="smoothScroll">Logout</a></li>
+                       <li><a href="index.jsp" class="smoothScroll">Home</a></li>
+                         <li><a href="index2.jsp" class="smoothScroll">Start</a></li>
+                         <li><a href="index.jsp" class="smoothScroll">Stop</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                       
@@ -120,39 +122,32 @@ catch(Exception e)
               <div class="card">
                 <div class="card-header d-flex align-items-center">
                   <h2 class="h5 display display">
-                    <h3>E-mail Details</h3>
+                    <h3>Admin Login</h3>
                   </h2>
                 </div>
                 <div class="card-block">
                   <p></p>
                   <form name="name" method="post">
-				  <%
-				  Statement stmt2=Con.createStatement();
-				  ResultSet rs2=stmt2.executeQuery("select * from admin");
-          if(rs2.next())
-		  {
-				  
-				  %>
-                   E-mail: <%=rs2.getString("email")%>
-				   <% //=rs2.getString("pass")%>
-				   <%
-				   }
-				   %>
-				   <p>&nbsp;</p>
-				   <p>&nbsp;</p>
+                   
 					<div class="form-group">
-                      <label>E-mail</label>
-                      <input type="text" name="email" placeholder="E-mail ID" class="form-control" required>
+                      <label>Username</label>
+                      <input type="text" name="uname" placeholder="Username" class="form-control" required>
                     </div>
                     <div class="form-group">       
                       <label>Password</label>
-                      <input type="password" name="pass" placeholder="E-mail Password" class="form-control" required>
+                      <input type="password" name="pass" placeholder="Password" class="form-control" required>
                     </div>
                     <div class="form-group">       
-                      <input type="submit" name="btn" value="Update" class="btn btn-primary">
+                      <input type="submit" name="btn" value="Login" class="btn btn-primary">
                     </div>
 					
                   </form>
+				  <%
+				  if(msg!="")
+				  {
+				  out.print(msg);
+				  }
+				  %>
                 </div>
               </div>
     </div>

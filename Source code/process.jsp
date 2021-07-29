@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=iso-8859-1" language="java" import="java.sql.*" errorPage="" %>
-<%@ include file="dbconnect.jsp" %>
+<%@ page import="com.controller" %>
+<%@ page import="com.model.Scheduler" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,22 +32,17 @@
 <body>
 
 <%
-
+String act="";
 try
 {
-String btn=request.getParameter("btn");
-	if(btn.equals("Update"))
+act=request.getParameter("act");
+	if(act.equals("1"))
 	{
-	String em=request.getParameter("email");
-	String pw=request.getParameter("pass");
-        //out.print("update admin set email='"+em+"',pass='"+pw+"' where username='admin'");
-	stmt.executeUpdate("update admin set email='"+em+"',pass='"+pw+"' where username='admin'");
-	%>
-	<script language="javascript">
-	alert("Updated Success");
-	window.location.href="admin.jsp";
-	</script>
-	<%
+	out.println("START SER"); //prints to daemon terminal
+		
+		boolean a = true;
+		Scheduler sch = new Scheduler();
+		sch.waitMethod(a);
 	}
 }
 catch(Exception e)
@@ -54,9 +50,7 @@ catch(Exception e)
 
 }
 
-
 %>
-
      <!-- PRE LOADER -->
      <section class="preloader">
           <div class="spinner">
@@ -79,14 +73,15 @@ catch(Exception e)
                     </button>
 
                     <!-- lOGO TEXT HERE -->
-                    <a href="" class="navbar-brand">Background Verification Software</a>
+                    <a href="index.html" class="navbar-brand">Background Verification Software</a>
                </div>
 
                <!-- MENU LINKS -->
                <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                       <li><a href="admin.jsp" class="smoothScroll">Home</a></li>
-                         <li><a href="logout.jsp" class="smoothScroll">Logout</a></li>
+                       
+                         <li><a href="process.jsp?act=1" class="smoothScroll">Start</a></li>
+                         <li><a href="StopServ" class="smoothScroll">Stop</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                       
@@ -96,74 +91,26 @@ catch(Exception e)
           </div>
      </section>
 
-<!-- FEATURE -->
+
+     <!-- FEATURE -->
      <section id="home" data-stellar-background-ratio="0.5">
           <div class="overlay"></div>
           <div class="container">
                <div class="row">
 
-                 
+                    <div class="col-md-offset-3 col-md-6 col-sm-12">
+                         <div class="home-info">
+                              <h3>Verification</h3>
+                              <h1>Background Verification </h1>
+                              <form action="" method="get" class="online-form">
+                                   
+                              </form>
+                         </div>
+                    </div>
 
                </div>
           </div>
      </section>
-	 
- <div class="row">
-  
-  			<div class="col-lg-3">
-			
-				<!-- A grey horizontal navbar that becomes vertical on small screens -->
-			</div>
-			
-			
-            <div class="col-lg-6">
-              <div class="card">
-                <div class="card-header d-flex align-items-center">
-                  <h2 class="h5 display display">
-                    <h3>E-mail Details</h3>
-                  </h2>
-                </div>
-                <div class="card-block">
-                  <p></p>
-                  <form name="name" method="post">
-				  <%
-				  Statement stmt2=Con.createStatement();
-				  ResultSet rs2=stmt2.executeQuery("select * from admin");
-          if(rs2.next())
-		  {
-				  
-				  %>
-                   E-mail: <%=rs2.getString("email")%>
-				   <% //=rs2.getString("pass")%>
-				   <%
-				   }
-				   %>
-				   <p>&nbsp;</p>
-				   <p>&nbsp;</p>
-					<div class="form-group">
-                      <label>E-mail</label>
-                      <input type="text" name="email" placeholder="E-mail ID" class="form-control" required>
-                    </div>
-                    <div class="form-group">       
-                      <label>Password</label>
-                      <input type="password" name="pass" placeholder="E-mail Password" class="form-control" required>
-                    </div>
-                    <div class="form-group">       
-                      <input type="submit" name="btn" value="Update" class="btn btn-primary">
-                    </div>
-					
-                  </form>
-                </div>
-              </div>
-    </div>
-	
-	
-	<div class="col-lg-3">
-			
-				<!-- A grey horizontal navbar that becomes vertical on small screens -->
-			</div>
-
-</div>
 
 
    
